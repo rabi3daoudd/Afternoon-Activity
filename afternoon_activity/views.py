@@ -6,11 +6,25 @@ from .models import ProgramActivity,Activity,Camper,Cabin,Counselor,Group,Sessio
 from datetime import datetime, timedelta
 import requests, os
 from dotenv import load_dotenv
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 
 from django.template.loader import get_template
 from django.http import HttpResponse
 from xhtml2pdf import pisa
 from io import BytesIO
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("afternoon_activity:homepage")
+        else:
+            return render(request, "afternoon_activity/login.html", {"failed_login":True})
+    return render(request, "afternoon_activity/login.html")
 
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
@@ -55,18 +69,20 @@ def camper_remove_from_old_and_add_to_new_activity(camper, activities_camper_is_
         rainy_day_activity.save()
         print("Camper: "+str(camper)+" is added to the rainy day activity: "+str(rainy_day_activity))
 
+
 def homepage(request):
     sessions= Session.objects.all()
     List_of_activities = Period.objects.all()
     return render(request, "afternoon_activity/homepage.html", {"sessions":sessions,"List_of_activities":List_of_activities})
 
+@login_required
 def activity_selection(request, session_id):
     session = Session.objects.get(session_number=session_id)
     url_session_number = session_id
     activity_types = Period.objects.all()
     return render(request, "afternoon_activity/activity_selection.html", {"session" : session ,"activity_types": activity_types,"url_session_number":url_session_number})
 
-
+@login_required
 def cabins(request, session_id, activityPK, start_cabin_id=None, end_cabin_id=None):
     activity_types = Period.objects.all() # Needed for NavBar
     url_session_number =  session_id # Needed for NavBar
@@ -98,6 +114,7 @@ def cabins(request, session_id, activityPK, start_cabin_id=None, end_cabin_id=No
     
     return render(request, "afternoon_activity/Cabins.html", {"list_of_cabins": list_of_cabins, "session_cabins": session_cabins, "activityPK": activityPK, "activity_types": activity_types,"activity_type_pks": activity_type_pks, "url_session_number":url_session_number,"selected_activity":selected_activity})
 
+@login_required
 def activity_sheet(request, session_id, activityPK):
     activity_types = Period.objects.all() # Needed for NavBar
     url_session_number =  session_id # Needed for NavBar
@@ -117,6 +134,7 @@ def activity_sheet(request, session_id, activityPK):
 
     return render(request, "afternoon_activity/activity_sheet.html", {"session_cabins": session_cabins, "activityPK": activityPK, "activity_types": activity_types,"url_session_number":url_session_number, "current_date": current_date, "url_activityPK": url_activityPK, "activities":activities, "rainy_day_activities":rainy_day_activities,"period":period, "selected_date":selected_date})
 
+@login_required
 def cabin(request, session_id, activityPK, cabin_id):
 
     tomorrows_weather_data = get_tomorrows_weather_data()

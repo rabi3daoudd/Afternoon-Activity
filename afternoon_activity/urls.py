@@ -18,4 +18,5 @@ urlpatterns = [
     
     
     path('<int:activityPK>/<str:activity_date>/', views.activity_pdf_view, name='activity_pdf'),
+    path("login/", views.login_view, name="login"),
 ]

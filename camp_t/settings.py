@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-q@j3s@$d_@ot&!a)dm#g#7yo$c5&m!2r7@@=tpbxf$@2$ucby^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +51,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'camp_t.urls'
+LOGIN_URL = "/login/"
 
 TEMPLATES = [
     {

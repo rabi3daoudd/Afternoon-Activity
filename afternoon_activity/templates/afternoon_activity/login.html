@@ -1,0 +1,48 @@
+{% extends './base/base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% comment %}Same as base but the nav bar does not exist{% endcomment %}
+
+{% block title %}
+  Home Page
+{% endblock %}
+
+{% block navbar %}
+  <div style="padding-bottom: 80px;">
+    <nav class="navbar bg-body-tertiary fixed-top">
+      <div class="container">
+        <a class="navbar-brand order-1" style="padding-right: 40px;"></a>
+        <a class="navbar-brand order-1" href="{% url 'afternoon_activity:homepage' %}">
+          <img class="navbar-logo" style="width: 50px; height: 50px;" src="{% static 'afternoon_activity/img/Camp-T_logo-rounded.png' %}" alt="Camp Transfiguration Logo" />
+          Camp Transfiguration
+        </a>
+        <a class="navbar-brand order-2">
+          <img src="http://openweathermap.org/img/w/{{ weather_icon }}.png" alt="{{ weather_description }}" />
+          {{ weather }} °C
+        </a>
+      </div>
+    </nav>
+  </div>
+{% endblock %}
+
+{% block main_content %}
+  <div class="row justify-content-center">
+    <div class="col-7 col-sm-7 col-md-5 col-lg-4 col-xl-4 col-xxl-4" style="margin-top: 10vh;">
+      <h1>Login</h1>
+      {% if failed_login %}
+        <small class="text-danger">Incorect username and/or password.</small>
+        <br />
+        <small class="text-danger">Please try again.</small>
+      {% endif %}
+      <form method="post">
+        {% csrf_token %}
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+        <label class="form-label" for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+        <button type="submit" class="btn btn-secondary" style="margin-top: 2vh;">Login</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
