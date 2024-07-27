@@ -5,12 +5,8 @@ afternoon_activity/static/afternoon_activity/node_modules
 .DS_Store
 ../.DS_Store
 .env
+staticfiles
 
 
 afternoon_activity/.DS_Store
 afternoon_activity/__pycache__
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
