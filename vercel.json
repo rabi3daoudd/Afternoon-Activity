@@ -7,7 +7,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "camp_t/wsgi.py"
+            "dest": "api/wsgi.py"
         }
     ]
 }
