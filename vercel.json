@@ -1,6 +1,6 @@
 {
     "builds": [{
-        "src": "camp_t/wsgi.py",
+        "src": "api/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     }],
@@ -10,4 +10,5 @@
             "dest": "api/wsgi.py"
         }
     ]
+    
 }
